@@ -13,7 +13,7 @@ public class PostgreSQLDemoACID {
   public static void main(String args[]) throws SQLException, IOException, ClassNotFoundException {
 
     // Load the PostgreSQL driver
-	  Class.forName("org.postgresql.Driver");
+    Class.forName("org.postgresql.Driver");
 
     // Connect to the database
     Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost/postgres_test");
@@ -30,8 +30,9 @@ public class PostgreSQLDemoACID {
       stmt = conn.createStatement();
 
       // delete rows with "p1" as prodid from Stock table
-      // must be done first to satisfy foreign key constraint on Stock table
+      // must be done first to satisfy foreign key constraint on Stock table (for consistency)
       stmt.executeUpdate("DELETE FROM Stock WHERE prodid = 'p1'");
+
       // delete row with "p1" as prodid from Product table
       stmt.executeUpdate("DELETE FROM Product WHERE prodid = 'p1'");
     } catch (SQLException e) {
@@ -43,7 +44,7 @@ public class PostgreSQLDemoACID {
       return;
     } // main
 
-    conn.commit(); // atomicity
+    conn.commit(); // for atomicity
     stmt.close();
     conn.close();
   }
